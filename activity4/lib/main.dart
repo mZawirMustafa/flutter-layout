@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Friends list'),
     );
   }
 }
@@ -53,134 +53,145 @@ class _MyHomePageState extends State<MyHomePage> {
             return Center(child: Text("${data.error}"));
           } else if (data.hasData) {
             var items = data.data as List<DataList>;
-            return ListView.builder(itemBuilder: (context, index) {
-              return Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: Image(
-                          width: 50,
-                          height: 50,
-                          image: NetworkImage(
-                            items[index].avatar == null
-                                ? 'https://static.thenounproject.com/png/3134331-200.png'
-                                : items[index].avatar.toString(),
+            return ListView.builder(
+                itemCount: items == null ? 0 : items.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Image(
+                              width: 50,
+                              height: 50,
+                              image: NetworkImage(
+                                items[index].avatar == null
+                                    ? 'https://static.thenounproject.com/png/3134331-200.png'
+                                    : items[index].avatar.toString(),
+                              ),
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Expanded(
-                          flex: 3,
-                          child: Container(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+                          Expanded(
+                              flex: 3,
+                              child: Container(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 8),
+                                          child: Text(
+                                              items[index]
+                                                  .first_name
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 0, right: 0),
+                                          child: Text(
+                                              items[index].last_name.toString(),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Padding(
                                       padding:
                                           EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                          items[index].first_name.toString(),
+                                          items[index].username.toString(),
                                           style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold)),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
                                     ),
                                     Padding(
                                       padding:
-                                          EdgeInsets.only(left: 0, right: 0),
+                                          EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                          items[index].last_name.toString(),
+                                          items[index].status == null
+                                              ? 'No Status Inserted'
+                                              : items[index].status.toString(),
                                           style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold)),
+                                            fontSize: 12,
+                                          )),
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8, right: 8),
-                                  child: Text(items[index].username.toString(),
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8, right: 8),
-                                  child: Text(
-                                      items[index].status == null
-                                          ? 'No Status Inserted'
-                                          : items[index].status.toString(),
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      )),
-                                ),
-                              ],
-                            ),
-                          )),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 8, right: 8),
-                            child: Text(items[index].last_seen_time.toString(),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                )),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
+                              )),
+                          Column(
                             children: [
-                              Container(
-                                width: 30.0,
-                                height: 25.0,
-                                decoration: new BoxDecoration(
-                                  color: Colors.blue,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              Positioned(
-                                right: 4,
-                                child: Container(
-                                  height: 15.0,
-                                  width: 15.0,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 0, right: 0),
-                                    child: Text(
-                                        items[index].messages == null
-                                            ? '0'
-                                            : items[index].messages.toString(),
+                              Padding(
+                                padding: EdgeInsets.only(left: 8, right: 8),
+                                child:
+                                    Text(items[index].last_seen_time.toString(),
                                         style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
                                         )),
-                                  ),
-                                ),
                               ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 30.0,
+                                    height: 25.0,
+                                    decoration: new BoxDecoration(
+                                      color: Colors.blue,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 4,
+                                    child: Container(
+                                      height: 15.0,
+                                      width: 15.0,
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.only(left: 0, right: 0),
+                                        child: Text(
+                                            items[index].messages == null
+                                                ? '0'
+                                                : items[index]
+                                                    .messages
+                                                    .toString(),
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-            });
+                    ),
+                  );
+                });
           } else {
             return Center(
               child: CircularProgressIndicator(),
